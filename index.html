@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustify - Trusted Products, National Accreditation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0f1419;
+            --secondary-bg: #1a1f28;
+            --card-bg: #232931;
+            --accent-blue: #00a8ff;
+            --accent-green: #00d4aa;
+            --accent-orange: #ff9f43;
+            --accent-red: #ff6b6b;
+            --text-primary: #ffffff;
+            --text-secondary: #b8bcc4;
+            --border-color: #2d3541;
+            --hover-bg: #2d3541;
+            --success: #00d4aa;
+            --warning: #ff9f43;
+            --danger: #ff6b6b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .user-menu {
+            position: relative;
+            display: none;
+        }
+
+        .user-menu.active {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            display: none;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .btn-primary, .btn-secondary, .btn-success, .btn-danger {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 168, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: none;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: var(--text-secondary);
+        }
+
+        .dashboard-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .dashboard-tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .dashboard-tab.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
+        .dashboard-content {
+            display: none;
+        }
+
+        .dashboard-content.active {
+            display: block;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Certificate Card */
+        .certificate-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-blue);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .certificate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .certificate-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(0, 212, 170, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 159, 67, 0.2);
+            color: var(--warning);
+        }
+
+        .status-expired {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--danger);
+        }
+
+        .certificate-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .qr-preview {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .data-table thead {
+            background: var(--secondary-bg);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .data-table tr {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .chart-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .simple-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            height: 200px;
+            padding: 1rem 0;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--accent-blue), var(--accent-green));
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            min-height: 20px;
+            transition: all 0.3s;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+            transform: scaleY(1.05);
+        }
+
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .chart-bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--secondary-bg);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 40px rgba(0, 168, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Plans Section */
+        .plans {
+            padding: 6rem 2rem;
+            background: var(--secondary-bg);
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .plan-card.featured {
+            border-color: var(--accent-blue);
+            transform: scale(1.05);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 168, 255, 0.2);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .plan-features li:before {
+            content: "✓ ";
+            color: var(--accent-green);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--secondary-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 1px solid var(--border-color);
+            margin: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-blue);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-bg);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 5rem;
+            right: 2rem;
+            background: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 3000;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 3rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a:not(.btn-primary):not(.btn-secondary) {
+                display: none;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .plan-card.featured {
+                transform: scale(1);
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-tabs {
+                flex-wrap: nowrap;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(0, 212, 170, 0.2);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 159, 67, 0.2);
+            color: var(--warning);
+        }
+
+        .badge-info {
+            background: rgba(0, 168, 255, 0.2);
+            color: var(--accent-blue);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#111827;color:#e5e7eb;border-top:1px solid #374151;font:13px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">
+        <strong style="color:#22d3ee">Concept prototype</strong> &middot; Built for the Brain to Brand 2025 business hackathon. Trustify is not a real certification body; statistics, plans and accreditation are illustrative, and no data is sent anywhere.
+    </div>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo" onclick="showHome()">Trustify</div>
+            <div class="nav-links" id="publicNav">
+                <a onclick="scrollToSection('features')">Features</a>
+                <a onclick="scrollToSection('how-it-works')">How It Works</a>
+                <a onclick="scrollToSection('pricing')">Pricing</a>
+                <a onclick="scrollToSection('verify')">Verify Certificate</a>
+                <button class="btn-secondary" onclick="openModal('auth')">Login / Register</button>
+                <button class="btn-primary" onclick="openModal('apply')">Apply for Certification</button>
+            </div>
+            <div class="nav-links user-menu" id="userNav">
+                <a onclick="showDashboard()">Dashboard</a>
+                <div style="position: relative;">
+                    <div class="user-avatar" onclick="toggleDropdown()" id="userAvatar">JD</div>
+                    <div class="dropdown" id="userDropdown">
+                        <div class="dropdown-item" onclick="showDashboard()">📊 Dashboard</div>
+                        <div class="dropdown-item" onclick="showSettings()">⚙️ Settings</div>
+                        <div class="dropdown-item" onclick="showBilling()">💳 Billing</div>
+                        <div class="dropdown-item" style="border-top: 1px solid var(--border-color); margin-top: 0.5rem; padding-top: 1rem;" onclick="logout()">🚪 Logout</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Landing Page -->
+    <div id="landingPage">
+        <!-- Hero Section -->
+        <section class="hero fade-in">
+            <div class="hero-content">
+                <h1>
+                    <span class="gradient-text">Trusted Products</span><br>
+                    National Accreditation
+                </h1>
+                <p>
+                    Empowering small businesses with affordable, verified certification. 
+                    Build trust, prove ethics, and grow your brand with nationally accredited credentials.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openModal('apply')">Get Certified Today</button>
+                    <button class="btn-secondary" onclick="scrollToSection('how-it-works')">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <svg width="500" height="400" viewBox="0 0 500 400">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00a8ff;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d4aa;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="100" y="50" width="300" height="250" rx="15" fill="url(#grad1)" opacity="0.2"/>
+                    <rect x="110" y="60" width="280" height="230" rx="10" fill="#232931" stroke="url(#grad1)" stroke-width="3"/>
+                    <circle cx="250" cy="150" r="50" fill="url(#grad1)" opacity="0.3"/>
+                    <polyline points="225,150 240,165 275,130" stroke="#00d4aa" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="140" y1="220" x2="360" y2="220" stroke="url(#grad1)" stroke-width="3" opacity="0.5"/>
+                    <line x1="140" y1="245" x2="300" y2="245" stroke="url(#grad1)" stroke-width="3" opacity="0.3"/>
+                    <rect x="140" y="270" width="50" height="50" fill="white" rx="5"/>
+                    <rect x="145" y="275" width="40" height="40" fill="#232931"/>
+                    <rect x="150" y="280" width="10" height="10" fill="white"/>
+                    <rect x="165" y="280" width="10" height="10" fill="white"/>
+                    <rect x="150" y="295" width="10" height="10" fill="white"/>
+                    <rect x="165" y="305" width="10" height="10" fill="white"/>
+                    <circle cx="80" cy="100" r="3" fill="#00a8ff"/>
+                    <circle cx="420" cy="120" r="4" fill="#00d4aa"/>
+                    <circle cx="90" cy="300" r="2" fill="#00a8ff"/>
+                    <circle cx="410" cy="280" r="3" fill="#00d4aa"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="features" style="background: var(--card-bg); padding: 4rem 2rem;">
+            <div class="stats-grid" style="max-width: 1200px; margin: 0 auto;">
+                <div class="stat-card fade-in">
+                    <div style="text-align: center;">
+                        <div class="stat-value">10,000+</div>
+                        <div class="stat-label">Certified Businesses</div>
+                    </div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div style="text-align: center;">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Industry Sectors</div>
+                    </div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div style="text-align: center;">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Verification Accuracy</div>
+                    </div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div style="text-align: center;">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">QR Verification</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Choose <span class="gradient-text">Trustify</span>?</h2>
+                    <p>Bridging the trust gap for small businesses with enterprise-level credibility</p>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>National Accreditation</h3>
+                        <p>Platform-level certification backed by institutional credibility. Get the same trust as big enterprises at a fraction of the cost.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">📱</div>
+                        <h3>QR Verification</h3>
+                        <p>Instant authenticity checks for your customers. Each certificate includes a unique QR code for public transparency and trust building.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Centralized Platform</h3>
+                        <p>Single trusted standard with dispute resolution system and periodic re-verification to maintain credibility.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">💰</div>
+                        <h3>Affordable Pricing</h3>
+                        <p>Subscription-based model designed for small businesses. No hidden fees, transparent pricing, cancel anytime.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Verified Ethics</h3>
+                        <p>Combat greenwashing with third-party verification. Prove your sustainability and ethical business practices.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">📊</div>
+                        <h3>Analytics Dashboard</h3>
+                        <p>Track verification scans, customer engagement, and certification performance with detailed analytics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="features" id="how-it-works" style="background: var(--primary-bg);">
+            <div class="container">
+                <div class="section-header">
+                    <h2>How It <span class="gradient-text">Works</span></h2>
+                    <p>Get certified in 4 simple steps</p>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">1️⃣</div>
+                        <h3>Subscribe</h3>
+                        <p>Choose a plan that fits your business size and needs. Start your certification journey today.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">2️⃣</div>
+                        <h3>Get Certified</h3>
+                        <p>Submit your business information and documentation. Our team verifies your ethical and sustainability practices.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">3️⃣</div>
+                        <h3>Receive QR</h3>
+                        <p>Get your unique QR code and digital certificate. Display it on products, website, and marketing materials.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">4️⃣</div>
+                        <h3>Platform Access</h3>
+                        <p>Access your dashboard, track verifications, and maintain your certification with periodic renewals.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="plans" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Choose Your <span class="gradient-text">Plan</span></h2>
+                    <p>Flexible pricing for businesses of all sizes</p>
+                </div>
+                <div class="plans-grid">
+                    <div class="plan-card fade-in">
+                        <div class="plan-name">Starter</div>
+                        <div class="plan-price">$29<span>/month</span></div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Perfect for small businesses</p>
+                        <ul class="plan-features">
+                            <li>National accreditation certification</li>
+                            <li>Unique QR code</li>
+                            <li>Digital certificate</li>
+                            <li>Platform access</li>
+                            <li>Annual re-verification</li>
+                            <li>Email support</li>
+                        </ul>
+                        <button class="btn-primary" style="width: 100%;" onclick="openModal('apply')">Get Started</button>
+                    </div>
+                    
+                    <div class="plan-card featured fade-in">
+                        <div style="background: var(--accent-blue); color: white; padding: 0.5rem; border-radius: 8px; text-align: center; margin-bottom: 1rem; font-weight: 600;">
+                            MOST POPULAR
+                        </div>
+                        <div class="plan-name">Professional</div>
+                        <div class="plan-price">$79<span>/month</span></div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">For growing businesses</p>
+                        <ul class="plan-features">
+                            <li>Everything in Starter</li>
+                            <li>Analytics dashboard</li>
+                            <li>Priority verification</li>
+                            <li>Enhanced branding options</li>
+                            <li>Quarterly re-verification</li>
+                            <li>Priority support</li>
+                            <li>Marketing materials</li>
+                        </ul>
+                        <button class="btn-primary" style="width: 100%;" onclick="openModal('apply')">Get Started</button>
+                    </div>
+                    
+                    <div class="plan-card fade-in">
+                        <div class="plan-name">Enterprise</div>
+                        <div class="plan-price">$199<span>/month</span></div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">For established companies</p>
+                        <ul class="plan-features">
+                            <li>Everything in Professional</li>
+                            <li>Custom verification schedule</li>
+                            <li>Dedicated account manager</li>
+                            <li>API access</li>
+                            <li>White-label options</li>
+                            <li>24/7 phone support</li>
+                            <li>Custom integrations</li>
+                        </ul>
+                        <button class="btn-primary" style="width: 100%;" onclick="openModal('apply')">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verify Section -->
+        <section class="features" id="verify" style="background: var(--primary-bg);">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Verify a <span class="gradient-text">Certificate</span></h2>
+                    <p>Enter certificate ID or scan QR code to verify authenticity</p>
+                </div>
+                <div class="stat-card" style="max-width: 600px; margin: 0 auto;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div class="feature-icon" style="font-size: 4rem;">🔍</div>
+                        <h3 style="margin-bottom: 1rem;">Certificate Verification</h3>
+                        <p style="color: var(--text-secondary);">
+                            Ensure the authenticity of any Trustify certificate by entering its unique ID
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <input type="text" placeholder="Enter Certificate ID (e.g., TRUST-2026-001234)" id="certId" style="flex: 1; padding: 0.8rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+                        <button class="btn-primary" onclick="verifyCertificate()">Verify</button>
+                    </div>
+                    <div id="verificationResult"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Trustify</h3>
+                    <p style="color: var(--text-secondary); margin-top: 1rem;">
+                        Empowering small businesses with trusted, nationally accredited certification.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#" onclick="scrollToSection('features')">Features</a></li>
+                        <li><a href="#" onclick="scrollToSection('pricing')">Pricing</a></li>
+                        <li><a href="#" onclick="scrollToSection('verify')">Verify Certificate</a></li>
+                        <li><a href="#" onclick="openModal('apply')">Apply Now</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accreditation</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Trustify. All rights reserved. Nationally Accredited Certification Platform.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboardPage">
+        <div class="dashboard-header">
+            <h1>Welcome back, <span class="gradient-text" id="userName">John Doe</span></h1>
+            <p>Manage your certifications and track your business verification status</p>
+        </div>
+
+        <div class="dashboard-tabs">
+            <button class="dashboard-tab active" onclick="switchDashboardTab('overview')">📊 Overview</button>
+            <button class="dashboard-tab" onclick="switchDashboardTab('certificate')">🏆 My Certificate</button>
+            <button class="dashboard-tab" onclick="switchDashboardTab('analytics')">📈 Analytics</button>
+            <button class="dashboard-tab" onclick="switchDashboardTab('documents')">📄 Documents</button>
+            <button class="dashboard-tab" onclick="switchDashboardTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overviewTab" class="dashboard-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Certificate Status</span>
+                        <span class="stat-icon">✅</span>
+                    </div>
+                    <div class="stat-value" style="font-size: 1.5rem; color: var(--success);">Active</div>
+                    <div class="stat-label">Valid until Feb 14, 2027</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">QR Code Scans</span>
+                        <span class="stat-icon">📱</span>
+                    </div>
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">+18% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Verification Rate</span>
+                        <span class="stat-icon">🔍</span>
+                    </div>
+                    <div class="stat-value">98.5%</div>
+                    <div class="stat-label">Customer trust score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Current Plan</span>
+                        <span class="stat-icon">💳</span>
+                    </div>
+                    <div class="stat-value" style="font-size: 1.5rem;">Professional</div>
+                    <div class="stat-label">$79/month</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>QR Code Scans Over Time</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Last 7 days</p>
+                </div>
+                <div class="simple-chart" style="position: relative; height: 250px;">
+                    <div class="chart-bar" style="height: 60%;">
+                        <div class="chart-bar-value">120</div>
+                        <div class="chart-bar-label">Mon</div>
+                    </div>
+                    <div class="chart-bar" style="height: 75%;">
+                        <div class="chart-bar-value">150</div>
+                        <div class="chart-bar-label">Tue</div>
+                    </div>
+                    <div class="chart-bar" style="height: 85%;">
+                        <div class="chart-bar-value">170</div>
+                        <div class="chart-bar-label">Wed</div>
+                    </div>
+                    <div class="chart-bar" style="height: 95%;">
+                        <div class="chart-bar-value">190</div>
+                        <div class="chart-bar-label">Thu</div>
+                    </div>
+                    <div class="chart-bar" style="height: 100%;">
+                        <div class="chart-bar-value">200</div>
+                        <div class="chart-bar-label">Fri</div>
+                    </div>
+                    <div class="chart-bar" style="height: 70%;">
+                        <div class="chart-bar-value">140</div>
+                        <div class="chart-bar-label">Sat</div>
+                    </div>
+                    <div class="chart-bar" style="height: 55%;">
+                        <div class="chart-bar-value">110</div>
+                        <div class="chart-bar-label">Sun</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <h3 style="margin-bottom: 1rem;">Recent Activity</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Feb 14, 2026</td>
+                            <td>Certificate renewed</td>
+                            <td><span class="badge badge-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Feb 10, 2026</td>
+                            <td>QR code downloaded</td>
+                            <td><span class="badge badge-info">Info</span></td>
+                        </tr>
+                        <tr>
+                            <td>Feb 5, 2026</td>
+                            <td>Profile updated</td>
+                            <td><span class="badge badge-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>Jan 28, 2026</td>
+                            <td>Verification scan milestone</td>
+                            <td><span class="badge badge-success">1000+ scans</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Certificate Tab -->
+        <div id="certificateTab" class="dashboard-content">
+            <div class="certificate-card">
+                <div class="certificate-header">
+                    <div class="certificate-info">
+                        <h2>Your Trustify Certificate</h2>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">Certificate ID: TRUST-2026-001234</p>
+                    </div>
+                    <div>
+                        <span class="certificate-status status-active">Active</span>
+                    </div>
+                </div>
+
+                <div class="certificate-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Business Name</div>
+                        <div class="detail-value">Sample Business Inc.</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Issue Date</div>
+                        <div class="detail-value">Feb 14, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Valid Until</div>
+                        <div class="detail-value">Feb 14, 2027</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Certification Type</div>
+                        <div class="detail-value">Ethical & Sustainable</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; padding: 2rem; background: var(--secondary-bg); border-radius: 12px; margin: 2rem 0;">
+                    <h3 style="margin-bottom: 1rem;">Your QR Code</h3>
+                    <svg class="qr-preview" width="150" height="150" viewBox="0 0 150 150">
+                        <rect x="0" y="0" width="150" height="150" fill="white"/>
+                        <rect x="15" y="15" width="35" height="35" fill="black"/>
+                        <rect x="100" y="15" width="35" height="35" fill="black"/>
+                        <rect x="15" y="100" width="35" height="35" fill="black"/>
+                        <rect x="65" y="65" width="20" height="20" fill="black"/>
+                        <rect x="30" y="65" width="10" height="10" fill="black"/>
+                        <rect x="110" y="65" width="10" height="10" fill="black"/>
+                        <rect x="65" y="30" width="10" height="10" fill="black"/>
+                        <rect x="65" y="110" width="10" height="10" fill="black"/>
+                        <rect x="85" y="85" width="20" height="20" fill="black"/>
+                        <rect x="40" y="85" width="10" height="10" fill="black"/>
+                    </svg>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem;">Customers can scan this to verify your certification</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="downloadCertificate()">📥 Download Certificate</button>
+                    <button class="btn-secondary" onclick="downloadQR()">📱 Download QR Code</button>
+                    <button class="btn-secondary" onclick="shareCertificate()">🔗 Share Certificate</button>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <h3 style="margin-bottom: 1rem;">Verification History</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Location</th>
+                            <th>Device</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Feb 14, 2026 3:45 PM</td>
+                            <td>New York, USA</td>
+                            <td>Mobile</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                        </tr>
+                        <tr>
+                            <td>Feb 14, 2026 2:30 PM</td>
+                            <td>London, UK</td>
+                            <td>Desktop</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                        </tr>
+                        <tr>
+                            <td>Feb 14, 2026 11:20 AM</td>
+                            <td>Tokyo, Japan</td>
+                            <td>Mobile</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                        </tr>
+                        <tr>
+                            <td>Feb 13, 2026 6:15 PM</td>
+                            <td>Sydney, Australia</td>
+                            <td>Tablet</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analyticsTab" class="dashboard-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Total Scans</span>
+                        <span class="stat-icon">📊</span>
+                    </div>
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">All time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">This Month</span>
+                        <span class="stat-icon">📈</span>
+                    </div>
+                    <div class="stat-value">342</div>
+                    <div class="stat-label">+18% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Avg. Daily Scans</span>
+                        <span class="stat-icon">📱</span>
+                    </div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Last 30 days</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Peak Day</span>
+                        <span class="stat-icon">⭐</span>
+                    </div>
+                    <div class="stat-value">89</div>
+                    <div class="stat-label">Feb 8, 2026</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Monthly Scan Trends</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Last 6 months</p>
+                </div>
+                <div class="simple-chart" style="position: relative; height: 250px;">
+                    <div class="chart-bar" style="height: 45%;">
+                        <div class="chart-bar-value">180</div>
+                        <div class="chart-bar-label">Sep</div>
+                    </div>
+                    <div class="chart-bar" style="height: 55%;">
+                        <div class="chart-bar-value">220</div>
+                        <div class="chart-bar-label">Oct</div>
+                    </div>
+                    <div class="chart-bar" style="height: 70%;">
+                        <div class="chart-bar-value">280</div>
+                        <div class="chart-bar-label">Nov</div>
+                    </div>
+                    <div class="chart-bar" style="height: 80%;">
+                        <div class="chart-bar-value">320</div>
+                        <div class="chart-bar-label">Dec</div>
+                    </div>
+                    <div class="chart-bar" style="height: 75%;">
+                        <div class="chart-bar-value">300</div>
+                        <div class="chart-bar-label">Jan</div>
+                    </div>
+                    <div class="chart-bar" style="height: 85%;">
+                        <div class="chart-bar-value">342</div>
+                        <div class="chart-bar-label">Feb</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                <div class="stat-card">
+                    <h3 style="margin-bottom: 1.5rem;">Geographic Distribution</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>United States</span>
+                                <span style="font-weight: 600;">45%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>United Kingdom</span>
+                                <span style="font-weight: 600;">25%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Japan</span>
+                                <span style="font-weight: 600;">15%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 15%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Australia</span>
+                                <span style="font-weight: 600;">10%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 10%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Others</span>
+                                <span style="font-weight: 600;">5%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 5%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3 style="margin-bottom: 1.5rem;">Device Breakdown</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>📱 Mobile</span>
+                                <span style="font-weight: 600;">68%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>💻 Desktop</span>
+                                <span style="font-weight: 600;">22%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 22%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>📲 Tablet</span>
+                                <span style="font-weight: 600;">10%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 10%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Tab -->
+        <div id="documentsTab" class="dashboard-content">
+            <div class="stat-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3>Your Documents</h3>
+                    <button class="btn-primary" onclick="uploadDocument()">📤 Upload New Document</button>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Document Name</th>
+                            <th>Type</th>
+                            <th>Upload Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Business License</td>
+                            <td>PDF</td>
+                            <td>Jan 15, 2026</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                            <td>
+                                <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="viewDocument()">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sustainability Report 2025</td>
+                            <td>PDF</td>
+                            <td>Jan 10, 2026</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                            <td>
+                                <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="viewDocument()">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Supplier Certificates</td>
+                            <td>ZIP</td>
+                            <td>Dec 28, 2025</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                            <td>
+                                <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="viewDocument()">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ethics Policy Document</td>
+                            <td>PDF</td>
+                            <td>Dec 20, 2025</td>
+                            <td><span class="badge badge-success">Verified</span></td>
+                            <td>
+                                <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="viewDocument()">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settingsTab" class="dashboard-content">
+            <div style="display: grid; gap: 2rem;">
+                <div class="stat-card">
+                    <h3 style="margin-bottom: 2rem;">Business Information</h3>
+                    <form onsubmit="saveSettings(event)">
+                        <div class="form-group">
+                            <label>Business Name</label>
+                            <input type="text" value="Sample Business Inc." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="contact@samplebusiness.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" value="+1 (555) 123-4567" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Business Address</label>
+                            <textarea rows="3" required>123 Main Street, New York, NY 10001</textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
+                </div>
+
+                <div class="stat-card">
+                    <h3 style="margin-bottom: 2rem;">Subscription & Billing</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--secondary-bg); border-radius: 12px; margin-bottom: 1.5rem;">
+                        <div>
+                            <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Professional Plan</div>
+                            <div style="color: var(--text-secondary);">$79/month • Renews on March 14, 2026</div>
+                        </div>
+                        <button class="btn-secondary" onclick="changePlan()">Change Plan</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-secondary" onclick="viewBilling()">📄 View Billing History</button>
+                        <button class="btn-secondary" onclick="updatePayment()">💳 Update Payment Method</button>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3 style="margin-bottom: 2rem;">Notifications</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" checked style="width: auto;">
+                            <span>Email notifications for QR code scans</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" checked style="width: auto;">
+                            <span>Certificate renewal reminders</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" style="width: auto;">
+                            <span>Monthly analytics reports</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" checked style="width: auto;">
+                            <span>Security alerts</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('auth')">&times;</button>
+            <h2>Welcome to Trustify</h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="tab" onclick="switchAuthTab('register')">Register</button>
+            </div>
+            
+            <div id="loginTab" class="tab-content active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required placeholder="you@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
+                        <a href="#" style="color: var(--accent-blue);">Forgot password?</a>
+                    </p>
+                </form>
+            </div>
+            
+            <div id="registerTab" class="tab-content">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required placeholder="you@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" required placeholder="Your Company Inc.">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Modal -->
+    <div id="applyModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="close-modal" onclick="closeModal('apply')">&times;</button>
+            <h2>Apply for Certification</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Fill out the form below to start your certification process
+            </p>
+            
+            <form onsubmit="handleApplication(event)">
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" required placeholder="Your Company Name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Business Type</label>
+                    <select required>
+                        <option value="">Select business type</option>
+                        <option value="retail">Retail</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="services">Services</option>
+                        <option value="food">Food & Beverage</option>
+                        <option value="tech">Technology</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Number of Employees</label>
+                    <select required>
+                        <option value="">Select range</option>
+                        <option value="1-10">1-10</option>
+                        <option value="11-50">11-50</option>
+                        <option value="51-200">51-200</option>
+                        <option value="201+">201+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Contact Email</label>
+                    <input type="email" required placeholder="contact@company.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" required placeholder="+1 (555) 000-0000">
+                </div>
+                
+                <div class="form-group">
+                    <label>Preferred Plan</label>
+                    <select required>
+                        <option value="">Select a plan</option>
+                        <option value="starter">Starter - $29/month</option>
+                        <option value="professional">Professional - $79/month</option>
+                        <option value="enterprise">Enterprise - $199/month</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tell us about your ethical & sustainability practices</label>
+                    <textarea rows="4" required placeholder="Describe your business practices, sustainability initiatives, ethical sourcing, etc."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Submit Application
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <div id="notificationMessage"></div>
+    </div>
+
+    <script>
+        // State Management
+        let isLoggedIn = false;
+        let currentDashboardTab = 'overview';
+
+        // Modal Functions
+        function openModal(type) {
+            const modal = type === 'auth' ? document.getElementById('authModal') : document.getElementById('applyModal');
+            modal.classList.add('active');
+        }
+
+        function closeModal(type) {
+            const modal = type === 'auth' ? document.getElementById('authModal') : document.getElementById('applyModal');
+            modal.classList.remove('active');
+        }
+
+        // Auth Tab Switching
+        function switchAuthTab(tab) {
+            const tabs = document.querySelectorAll('#authModal .tab');
+            const contents = document.querySelectorAll('#authModal .tab-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('loginTab').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('registerTab').classList.add('active');
+            }
+        }
+
+        // Dashboard Tab Switching
+        function switchDashboardTab(tab) {
+            const tabs = document.querySelectorAll('.dashboard-tab');
+            const contents = document.querySelectorAll('.dashboard-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            const tabMap = {
+                'overview': 0,
+                'certificate': 1,
+                'analytics': 2,
+                'documents': 3,
+                'settings': 4
+            };
+            
+            tabs[tabMap[tab]].classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+            currentDashboardTab = tab;
+        }
+
+        // Login Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            closeModal('auth');
+            showDashboard();
+            showNotification('Welcome back! Login successful.', 'success');
+        }
+
+        // Register Handler
+        function handleRegister(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            closeModal('auth');
+            showDashboard();
+            showNotification('Account created successfully! Welcome to Trustify.', 'success');
+        }
+
+        // Application Handler
+        function handleApplication(e) {
+            e.preventDefault();
+            closeModal('apply');
+            showNotification('Application submitted successfully! Our team will review your application within 2-3 business days.', 'success');
+        }
+
+        // Show Dashboard
+        function showDashboard() {
+            document.getElementById('landingPage').style.display = 'none';
+            document.getElementById('dashboardPage').classList.add('active');
+            document.getElementById('publicNav').style.display = 'none';
+            document.getElementById('userNav').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Show Home
+        function showHome() {
+            if (!isLoggedIn) {
+                document.getElementById('landingPage').style.display = 'block';
+                document.getElementById('dashboardPage').classList.remove('active');
+                document.getElementById('publicNav').style.display = 'flex';
+                document.getElementById('userNav').classList.remove('active');
+                window.scrollTo(0, 0);
+            } else {
+                showDashboard();
+            }
+        }
+
+        // Logout
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('landingPage').style.display = 'block';
+            document.getElementById('dashboardPage').classList.remove('active');
+            document.getElementById('publicNav').style.display = 'flex';
+            document.getElementById('userNav').classList.remove('active');
+            document.getElementById('userDropdown').classList.remove('show');
+            showNotification('You have been logged out successfully.', 'info');
+            window.scrollTo(0, 0);
+        }
+
+        // Toggle Dropdown
+        function toggleDropdown() {
+            document.getElementById('userDropdown').classList.toggle('show');
+        }
+
+        // Certificate Verification
+        function verifyCertificate() {
+            const certId = document.getElementById('certId').value;
+            const resultDiv = document.getElementById('verificationResult');
+            
+            if (!certId) {
+                showNotification('Please enter a certificate ID', 'warning');
+                return;
+            }
+            
+            resultDiv.innerHTML = `
+                <div style="background: var(--secondary-bg); padding: 2rem; border-radius: 12px; border: 2px solid var(--accent-green); margin-top: 1rem;">
+                    <div style="text-align: center; margin-bottom: 1rem;">
+                        <div style="font-size: 3rem;">✓</div>
+                        <h3 style="color: var(--accent-green); margin: 1rem 0;">Certificate Verified</h3>
+                    </div>
+                    <div style="text-align: left; color: var(--text-secondary);">
+                        <p><strong>Business Name:</strong> Sample Business Inc.</p>
+                        <p><strong>Certificate ID:</strong> ${certId}</p>
+                        <p><strong>Certified For:</strong> Ethical & Sustainable Business Practices</p>
+                        <p><strong>Issue Date:</strong> February 14, 2026</p>
+                        <p><strong>Valid Until:</strong> February 14, 2027</p>
+                        <p><strong>Status:</strong> <span style="color: var(--accent-green);">Active</span></p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notificationMessage');
+            
+            const icons = {
+                success: '✓',
+                error: '✗',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            notificationMessage.innerHTML = `<strong>${icons[type]}</strong> ${message}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Scroll to Section
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Dashboard Actions
+        function downloadCertificate() {
+            showNotification('Downloading certificate...', 'success');
+        }
+
+        function downloadQR() {
+            showNotification('Downloading QR code...', 'success');
+        }
+
+        function shareCertificate() {
+            showNotification('Share link copied to clipboard!', 'success');
+        }
+
+        function uploadDocument() {
+            showNotification('Upload document feature coming soon!', 'info');
+        }
+
+        function viewDocument() {
+            showNotification('Opening document...', 'info');
+        }
+
+        function saveSettings(e) {
+            e.preventDefault();
+            showNotification('Settings saved successfully!', 'success');
+        }
+
+        function changePlan() {
+            showNotification('Redirecting to plan selection...', 'info');
+        }
+
+        function viewBilling() {
+            showNotification('Loading billing history...', 'info');
+        }
+
+        function updatePayment() {
+            showNotification('Opening payment method update...', 'info');
+        }
+
+        function showSettings() {
+            showDashboard();
+            switchDashboardTab('settings');
+        }
+
+        function showBilling() {
+            showDashboard();
+            switchDashboardTab('settings');
+        }
+
+        // Close modals and dropdowns on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+            if (!event.target.matches('.user-avatar')) {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        }
+
+        // Initialize animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
